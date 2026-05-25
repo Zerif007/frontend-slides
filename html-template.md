@@ -168,15 +168,15 @@ Every presentation must include:
    - Magnetic buttons
    - Counter animations
 
-4. **Inline Editing** (only if user opted in during Phase 1 — skip entirely if they said No):
+4. **Inline Editing** (included by default after draft generation):
    - Edit toggle button (hidden by default, revealed via hover hotzone or `E` key)
    - Auto-save to localStorage
    - Export/save file functionality
    - See "Inline Editing Implementation" section below
 
-## Inline Editing Implementation (Opt-In Only)
+## Inline Editing Implementation
 
-**If the user chose "No" for inline editing in Phase 1, do NOT generate any edit-related HTML, CSS, or JS.**
+Inline editing is a lightweight post-draft affordance. Do not ask the user whether they want it during the pre-generation Q&A. Include it by default unless the user explicitly asks for a locked/export-only presentation or no editing controls.
 
 **Do NOT use CSS `~` sibling selector for hover-based show/hide.** The CSS-only approach (`edit-hotzone:hover ~ .edit-toggle`) fails because `pointer-events: none` on the toggle button breaks the hover chain: user hovers hotzone -> button becomes visible -> mouse moves toward button -> leaves hotzone -> button disappears before click.
 

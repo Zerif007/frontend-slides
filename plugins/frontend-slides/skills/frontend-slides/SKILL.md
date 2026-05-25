@@ -50,18 +50,16 @@ These invariants apply to EVERY slide in EVERY presentation:
 
 **When generating, read `viewport-base.css` and include its full contents in every presentation.**
 
-### Content Density Limits Per Slide
+### Content Density Modes
 
-| Slide Type    | Maximum Content                                           |
-| ------------- | --------------------------------------------------------- |
-| Title slide   | 1 heading + 1 subtitle + optional tagline                 |
-| Content slide | 1 heading + 4-6 bullet points OR 1 heading + 2 paragraphs |
-| Feature grid  | 1 heading + 6 cards maximum (2x3 or 3x2)                  |
-| Code slide    | 1 heading + 8-10 lines of code                            |
-| Quote slide   | 1 quote (max 3 lines) + attribution                       |
-| Image slide   | 1 heading + 1 image (max 650px height inside the 1920×1080 stage) |
+Ask the user whether this is primarily a reading deck or a speaking deck, then design around that answer:
 
-**Content exceeds limits? Split into multiple slides. Never cram, never scroll.**
+| Density mode | Best for | Design behavior |
+| ------------- | -------- | --------------- |
+| **Low density / speaker-led** | Public talks, keynote-style sharing, live explanation | One idea per slide, large type, strong visual hierarchy, generous negative space, 1-3 bullets max, more slides if needed |
+| **High density / reading-first** | Reports, handouts, async review, detailed internal docs | More self-contained slides, structured grids/tables/annotations, 4-8 bullets or 4-6 cards when readable, tighter but still intentional spacing |
+
+Baseline limits still apply: no scrolling, no overflow, no overlapping panels, and no text below comfortable reading size. If content exceeds the selected density mode, split it into more slides instead of shrinking until it becomes cramped.
 
 ---
 
@@ -100,13 +98,15 @@ Approximately how many slides? Options: Short 5-10 / Medium 10-20 / Long 20+
 **Question 3 — Content** (header: "Content"):
 Do you have content ready? Options: All content ready / Rough notes / Topic only
 
-**Question 4 — Inline Editing** (header: "Editing"):
-Do you need to edit text directly in the browser after generation? Options:
+**Question 4 — Density** (header: "Density"):
+How dense should the deck feel? Options:
 
-- "Yes (Recommended)" — Can edit text in-browser, auto-save to localStorage, export file
-- "No" — Presentation only, keeps file smaller
+- "Low density / speaker-led" — Big ideas, fewer words, more visual breathing room
+- "High density / reading-first" — More self-contained detail for async reading
 
-**Remember the user's editing choice — it determines whether edit-related code is included in Phase 3.**
+**Do not ask about inline editing during Phase 1.** Users should not have to choose editing behavior before seeing a draft. Inline editing is a post-draft affordance: include it by default unless the user explicitly asks for a locked/export-only file.
+
+Remember the user's density choice. It affects slide count, typography scale, amount of text per slide, layout density, and whether to favor cinematic presenter slides or self-contained reading slides.
 
 If user has content, ask them to share it.
 
@@ -204,6 +204,15 @@ Generate the full presentation using content from Phase 1 (text, or text + curat
 
 If images were provided, the slide outline already incorporates them from Step 1.2. If not, CSS-generated visuals (gradients, shapes, patterns) provide visual interest — this is a fully supported first-class path.
 
+Apply the user's density choice throughout the deck:
+
+- **Low density / speaker-led:** Use more slides with fewer ideas per slide. Favor large headings, short phrases, visual metaphors, section beats, quote/statement slides, and presenter-friendly pacing.
+- **High density / reading-first:** Make slides more self-contained. Use structured grids, comparison tables, annotated diagrams, captions, and concise explanatory copy. Keep hierarchy strong so it feels designed, not like a document pasted onto slides.
+
+If the user's stated needs are mixed, choose the closer of the two modes instead of inventing a middle option: live audience persuasion defaults low-density; async circulation or detailed review defaults high-density.
+
+Never let high density become visual clutter. If a high-density slide starts to overflow, split it or redesign it into a clearer structure.
+
 If the user selected a bold template from `bold-template-pack`, read that one template's full `design.md` before generating. Do not read the other bold templates. Treat `design.md` as the design recipe:
 
 - Preserve its fonts, palette, decorative vocabulary, spacing rhythm, and component grammar.
@@ -256,7 +265,8 @@ When converting PowerPoint files:
    - File location, style name, slide count
    - Navigation: Arrow keys, Space, swipe/tap if enabled
    - How to customize: `:root` CSS variables for colors, font link for typography, `.reveal` class for animations
-   - If inline editing was enabled: Hover top-left corner or press E to enter edit mode, click any text to edit, Ctrl+S to save
+   - Inline text editing is available: Hover top-left corner or press E to enter edit mode, click any text to edit, Ctrl+S to save
+   - Offer the natural post-draft actions: ask for revisions, edit text directly in the browser, or export/share
 
 ---
 
